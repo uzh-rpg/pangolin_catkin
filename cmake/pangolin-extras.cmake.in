@@ -1,4 +1,5 @@
 # This overrides the empty library with the pangolin library file.
+set(PANGOLIN_FOUND @PANGOLIN_FOUND@)
 set(@PROJECT_NAME@_LIBRARIES
    @CATKIN_DEVEL_PREFIX@/lib/libpangolin@CMAKE_SHARED_LIBRARY_SUFFIX@
    @FREEGLUT_LIBRARY@

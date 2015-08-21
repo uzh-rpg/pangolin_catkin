@@ -62,10 +62,15 @@ ExternalProject_Add(pangolin_src
   INSTALL_COMMAND make install -j 8
 )
 
-message(STATUS "CMAKE_SHARED_LIBRARY_SUFFIX=${CMAKE_SHARED_LIBRARY_SUFFIX}")
-
 cs_add_library(${PROJECT_NAME} src/empty.cpp)
 add_dependencies(${PROJECT_NAME} pangolin_src)
+
+
+if(EXISTS "${CATKIN_DEVEL_PREFIX}/lib/libpangolin${CMAKE_SHARED_LIBRARY_SUFFIX}")
+  SET(PANGOLIN_FOUND TRUE)
+else()
+  SET(PANGOLIN_FOUND FALSE)
+endif()
 
 cs_install()
 cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
