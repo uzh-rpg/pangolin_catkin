@@ -6,8 +6,6 @@ catkin_simple()
 
 include(ExternalProject)
 
-file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
-
 option(PANGOLIN_USE_GUI "Build 3rdparty pangolin package with GUI support" ON)
 option(PANGOLIN_USE_VIDEO "Build 3rdparty pangolin package with Video support" OFF)
 option(PANGOLIN_USE_OCULUS "Build 3rdparty pangolin package with Oculus support" OFF)
@@ -48,23 +46,25 @@ if (CMAKE_BUILD_TYPE)
   list(APPEND PANGOLIN_CMAKE_OPTIONS "-DCMAKE_BUILD_TYPE:String=${CMAKE_BUILD_TYPE}")
 endif()
 
+file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
+set(PANGOLIN_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
+message(STATUS "panoglin install path: ${PANGOLIN_INSTALL_PATH}")
 message(STATUS "PANGOLIN_CMAKE_OPTIONS: ${PANGOLIN_CMAKE_OPTIONS}")
-ExternalProject_Add(pangolin_src
+ExternalProject_Add(pangolin_EXTERNAL
   GIT_REPOSITORY https://github.com/stevenlovegrove/Pangolin
   UPDATE_COMMAND ""
   #SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../pangolin
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CATKIN_DEVEL_PREFIX}
+  CMAKE_ARGS 
    -DBUILD_SHARED_LIBS:BOOL=ON
    ${PANGOLIN_CMAKE_OPTIONS}
    -DBUILD_EXAMPLES:BOOL=OFF
    -DCPP11_NO_BOOST:BOOL=ON
-  BUILD_COMMAND make install -j 8
-  INSTALL_COMMAND make install -j 8
+  BUILD_COMMAND ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${CATKIN_DEVEL_PREFIX} . && make install -j 8
+  INSTALL_COMMAND ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${PANGOLIN_INSTALL_PATH} . && make install -j 8
 )
 
 cs_add_library(${PROJECT_NAME} src/empty.cpp)
-add_dependencies(${PROJECT_NAME} pangolin_src)
-
+add_dependencies(${PROJECT_NAME} pangolin_EXTERNAL)
 
 if(EXISTS "${CATKIN_DEVEL_PREFIX}/lib/libpangolin${CMAKE_SHARED_LIBRARY_SUFFIX}")
   SET(PANGOLIN_FOUND TRUE)
