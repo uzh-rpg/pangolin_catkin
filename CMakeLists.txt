@@ -9,7 +9,7 @@ include(ExternalProject)
 option(PANGOLIN_USE_GUI "Build 3rdparty pangolin package with GUI support" ON)
 option(PANGOLIN_USE_VIDEO "Build 3rdparty pangolin package with Video support" OFF)
 option(PANGOLIN_USE_OCULUS "Build 3rdparty pangolin package with Oculus support" OFF)
-option(PANGOLIN_USE_VARS "Build 3rdparty pangolin package with Vars support" OFF)
+option(PANGOLIN_USE_VARS "Build 3rdparty pangolin package with Vars support" ON)
 
 find_package(FREEGLUT QUIET)
 find_package(GLUT QUIET)
