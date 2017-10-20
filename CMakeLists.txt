@@ -51,6 +51,7 @@ set(CATKIN_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
 ExternalProject_Add(pangolin_EXTERNAL
   GIT_REPOSITORY https://github.com/stevenlovegrove/Pangolin
+  GIT_TAG 8b6a6b706d50d4172eeb6d5827f40b2207483cf0
   UPDATE_COMMAND ""
   CMAKE_ARGS 
     -DBUILD_SHARED_LIBS:BOOL=ON
